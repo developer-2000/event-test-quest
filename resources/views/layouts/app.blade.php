@@ -36,6 +36,20 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('venues.index') }}">Venues</a>
                         </li>
+                        <!-- Current Weather -->
+{{--                        @if (Auth::check() && isset($weatherData['hours']))--}}
+{{--                            <div class="container mt-4">--}}
+{{--                                <h2>Current Weather</h2>--}}
+{{--                                @foreach ($weatherData['hours'] as $hour)--}}
+{{--                                    <p>Time: {{ $hour['time'] }}</p>--}}
+{{--                                    <p>Temperature: {{ $hour['airTemperature']['sg'] ?? 'N/A' }} °C</p>--}}
+{{--                                    <p>Wind Speed: {{ $hour['windSpeed']['sg'] ?? 'N/A' }} m/s</p>--}}
+{{--                                    <p>Precipitation: {{ $hour['precipitation']['sg'] ?? 'N/A' }}</p>--}}
+{{--                                    <hr>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
+{{--                        @endif--}}
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -80,6 +94,9 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <!-- Scripts -->
+{{--        <script src="{{ mix('js/app.js') }}"></script>--}}
     </div>
 </body>
 </html>
