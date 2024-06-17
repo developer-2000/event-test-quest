@@ -1,7 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\EventController;
+use \App\Http\Controllers\VenueController;
+use App\Http\Controllers\HomeController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('events', EventController::class);
+    Route::resource('venues', VenueController::class);
+});
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        return redirect()->route('home');
+    }
+    return view('auth.login');
 });

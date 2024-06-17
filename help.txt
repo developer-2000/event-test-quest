@@ -1,0 +1,221 @@
+﻿ОЧЕРЕДИ
+    php artisan queue:work
+При использовании команды
+    php artisan queue:listen --queue=emails
+    php artisan queue:listen --queue=default
+вам не нужно вручную перезапускать обработчик, если вы хотите перезагрузить обновленный код
+
+------------
+
+при установке через composer такая ошибка - Root composer.json requires laravel/ui 3.0 -> satisfiable by laravel/ui[v3.0.0]
+добавить к основной команде установки  --ignore-platform-reqs
+
+------------
+
+Запуск сервера - php artisan chosen:serve
+Запуск сервера - php artisan server:client
+
+------------
+
+УДАЛИТЬ ПАКЕТ
+composer remove vendor/package
+---
+npm uninstall sax
+
+-------------
+
+Log::emergency('аварийная ошибка');
+Log::alert('опасная ошибка');
+Log::critical('критическая ошибка');
+Log::error('ошибка');
+Log::warning('предупреждение');
+Log::notice('обратить внимание');
+Log::info('информационное сообщение');
+Log::debug('отладка');
+        try {
+//            $a = 'asd' / 5;
+        } catch (\Exception $e) {
+            logger('Произошла ошибка - ' . $e->getMessage() . ' --- Файл - ' . $e->getFile() . ' --- Строка - ' . $e->getLine());
+        }
+
+        //        запишет в messages Debage
+        //        logger('Вход пользователя.', ['id' => $user->id]);
+
+        //        запиишет в laravel.log
+        //        info('Неудачная попытка входа пользователя.', ['id' => $user->id]);
+
+        //        abort_if(! Gate::allows('access', 'доступ test1'), 404, 'Тебе не сюда !');
+
+        //        dd(Auth::user());
+
+        //        if(Gate::allows('access', 'доступ test1')) {
+        //            dump('Есть такой доступ !');
+        //        }
+
+
+        //показать список рабочих роутеров в проекте
+        php artisan route:list
+
+        // сброс кеш -
+        php artisan config:cache
+
+МОДЕЛИ
+        // просто создать model
+        php artisan make:model Model/User
+        // Создает модель, миграцию, ресурс контроллер -
+        php artisan make:model Model/Product -mcr
+        // Создает модель, ресурс контроллер -
+        php artisan make:model Model/Product -c -r
+        // Создает модель, миграцию -
+        php artisan make:model /Product -m
+КОНТРОЛЛЕР
+        // обычный контроллер
+        //php artisan make:controller CONTROLLER_NAME
+        // контроллер ресурсов
+        //php artisan make:controller CONTROLLER_NAME --resource
+
+МИГРАЦИИ
+        // создать обычную миграцию
+        php artisan make:migration create_users_table --create=users
+        // редактировать имеющуюся миграцию
+        php artisan make:migration add_column_users_table --table=users
+
+        // Для отмены изменений, сделанных последней миграцией
+        php artisan migrate:rollback
+        // сделать откат кол-во миграций
+        php artisan migrate:rollback --step=5
+
+        // перезалить миграция
+        php artisan migrate:refresh
+        // откатит и миграция и seeds
+        php artisan migrate:refresh --seed
+        В СЛУЧАЕ ОШИБКИ ПРИ SEED - composer dump-autoload А ПОСЛЕ КОМАНДА НА SEED
+
+        // удалить все накаты миграций
+        php artisan migrate:reset
+
+EXCEPTION
+        // класс Error исключений
+        php artisan make:exception MyCustomException --render
+        // вызвать custom ошибки
+        throw new UserException('Registration unsuccessful', 3);
+
+PASSPORT
+        // установить параметры passport в базе
+        php artisan passport:install
+
+MIDDLEWARE
+        // создать класс
+        php artisan make:middleware NameMiddleware
+
+SEEDER
+после создания новой seed в консоле, при ошибке - composer dumpautoload
+        // 1 создать сидер
+        php artisan make:seeder UserSeeder
+        // 2 выполнить сидер
+        php artisan db:seed
+        // 3 запуск конкретного seed
+        php artisan db:seed --class=UsersTableSeeder
+        // 4 создать файл фабрики
+        php artisan make:factory PostFactory
+        // 5 Удаляет все таблицы в базе и Создает заново и Запуск сидеров.
+        php artisan migrate:fresh --seed
+Вызов
+        // чистка всей сессии по id session()->getHandler()->destroy(session()->getID());
+
+VALIDATE
+        // создать файл валидации
+        php artisan make:request StoreBlogPost
+
+EVENT
+        // создать событие
+        php artisan make:event PodcastProcessed
+
+        // слушатель для события
+        php artisan make:listener NewsSendListener --event=NewsSendEvent
+
+        // список событий и слушателей
+        php artisan event:list
+
+REQUESTS
+php artisan make:request UserStoreRequest
+
+SERVICEPROVIDER
+php artisan make:provider ComposerServiceProvider
+
+
+
+связи
+через find - работа с relationship
+через where with - показ родителя и relationship
+$ddd = User::where('id', 2)->with('roles')->get();
+//        $user = User::find(1)->roles()->create(['name' => 'test']);
+показ пивот
+//        $roles = User::find(Auth::user()->id)->roles;
+//        $users = User::has('roles')->get();
+//        return response()->json(Auth::user());
+//        return response()->json( $user );
+//        return response()->json(Auth::user()->with('roles'));
+
+
+Route::resource
+GET 	   /photos 	             index 	       photos.index - вывод всех записей
+GET 	   /photos/create 	     create 	   photos.create - форма создания записи
+POST 	   /photos 	             modal_calendar 	       photos.modal_calendar - обработка создания записи
+GET 	   /photos/{photo} 	     show 	       photos.show - показ определенной записи
+GET 	   /photos/{photo}/edit  edit 	       photos.edit - форма редактирования записи
+PUT/PATCH  /photos/{photo} 	     update 	   photos.update - обработка обновления редактируемой записи
+DELETE 	   /photos/{photo} 	     destroy 	   photos.destroy - удаление записи
+
+php artisan route:list --method=get
+php artisan route:list --name=user
+---
+статус http
+получение - 200
+просмотр - 200
+создание - 201
+удаление - 204
+обновлении - 204
+
+--------
+обновить локально из git
+git pull origin ryslan_dev
+------
+клонировать нужную вертку с github
+git clone adres_git_clone -b name_marge
+------
+показ всех веток
+git branch
+------
+создать новую ветку
+git branch sham
+-------
+перейти в нужную ветку
+git checkout shamin_dev
+--------
+Посмотерть все коментарии
+git log
+--------
+отменить изменения во всех файлах
+git reset --hard HEAD
+--------
+отправить свою ветку на git
+git push -u origin shamil_dev
+--------
+отменить слияние в мастере, и сохранить изменения в ryslan_dev:
+git reset --soft HEAD^
+
+
+
+
+методы response json - \app\Http\Traits\Admin\BaseRestTrait.php
+
+// вернет то что передал, header status - return $this->getResponse($this->user, 201);
+// вернет message, массив errors, header status - return $this->getErrorResponse('Ошибка ', 403, ['sdf']);
+// вернет message, header status - return $this->getSuccessResponse(201);
+
+--------
+
+SWAGER
+    // проверка
+    php artisan l5-swagger:generate
