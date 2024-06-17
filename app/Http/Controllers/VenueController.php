@@ -2,83 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Venue;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreVenueRequest;
 
 class VenueController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $sortBy = $request->query('sort', 'id');
+        $sortDirection = $request->query('direction', 'asc');
+
+        // Получаем список мест с сортировкой и пагинацией
+        $venues = Venue::orderBy($sortBy, $sortDirection)->paginate(10);
+
+        // Передаем данные в представление
+        return view('venues.index', compact('venues', 'sortBy', 'sortDirection'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('venues.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreVenueRequest $request)
     {
-        //
+        Venue::create($request->validated());
+        return redirect()->route('venues.index')->with('success', 'Venue created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Venue $venue)
     {
-        //
+        return view('venues.show', compact('venue'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Venue $venue)
     {
-        //
+        return view('venues.edit', compact('venue'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(StoreVenueRequest $request, Venue $venue)
     {
-        //
+        $venue->update($request->validated());
+        return redirect()->route('venues.index')->with('success', 'Venue updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Venue $venue)
     {
-        //
+        $venue->delete();
+        return redirect()->route('venues.index')->with('success', 'Venue deleted successfully.');
     }
 }
+

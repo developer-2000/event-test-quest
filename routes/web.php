@@ -8,11 +8,12 @@ use App\Http\Controllers\HomeController;
 Route::middleware(['auth'])->group(function () {
     Route::resource('events', EventController::class);
     Route::resource('venues', VenueController::class);
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 Route::get('/', function () {
     if (auth()->check()) {

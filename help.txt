@@ -200,7 +200,7 @@ git log
 git reset --hard HEAD
 --------
 отправить свою ветку на git
-git push -u origin shamil_dev
+git push -u origin master
 --------
 отменить слияние в мастере, и сохранить изменения в ryslan_dev:
 git reset --soft HEAD^

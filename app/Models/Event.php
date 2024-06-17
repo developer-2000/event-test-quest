@@ -11,12 +11,9 @@ class Event extends Model
 
     protected $fillable = ['name', 'poster_path', 'event_date', 'venue_id'];
 
-    public function getPosterUrlAttribute()
+    // Определение отношения с Venue
+    public function venue()
     {
-        if ($this->poster_path) {
-            return asset('storage/' . $this->poster_path);
-        }
-        // Можно добавить fallback URL, если постер отсутствует
-        return asset('images/default-poster.jpg');
+        return $this->belongsTo(Venue::class);
     }
 }
